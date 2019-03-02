@@ -26,6 +26,15 @@ jQuery first, then Popper.js, then Bootstrap JS -->
     background-color: #ffbe45;
     color: white;
     font-weight: 600;
+    cursor: pointer;
+}
+.divPreloader{
+	display: none;
+	position: absolute;
+	opacity: .4;
+}
+.portfolio{
+	height: 500px;
 }
 </style>
 <body>
@@ -66,7 +75,7 @@ jQuery first, then Popper.js, then Bootstrap JS -->
 </header>
 
 <main>
-	<div class="container mt-4 mb-4">
+	<div class="container mt-4 mb-4 h-auto">
 		<div class="row portfolio">
 			<div class="col">
 				<h1 class="titulo">CHANGE THE COLOR OF A TESLA</h1>
@@ -79,7 +88,12 @@ jQuery first, then Popper.js, then Bootstrap JS -->
 						</div>
 					</div>
 					<div class="col-12 col-lg-8 col-xl-9 text-center">
-						<img src="img/tesla/modelS-blanco.jpg" class="tesla-pic img-fluid">
+						<div class="divPreloader">
+							<img src="img/tesla/loading.gif" class="imgLoader img-fluid">
+						</div> 
+						<div class="divVistaTesla">
+							<img class="tesla-pic img-fluid">
+						</div>
 					</div>
 				</div>
 			</div>
@@ -90,9 +104,9 @@ jQuery first, then Popper.js, then Bootstrap JS -->
 <footer class="d-flex justify-content-center">
 	<div class="redes-sociales justify-content-center">
 		<div class="col-auto">
-			<a href="#"><i class="fab fa-twitter fa-3x twitter" aria-hidden="true"></i></a>
-			<a href="#"><i class="fab fa-instagram fa-3x instagram" aria-hidden="true"></i></a>
-			<a href="#"><i class="fab fa-facebook fa-3x facebook" aria-hidden="true"></i></a>
+			<a href="#"><i class="fab fa-stack-overflow fa-3x stack-overflow" aria-hidden="true"></i></a>
+			<a href="#"><i class="fab fa-github fa-3x github" aria-hidden="true"></i></a>
+			<a href="#"><i class="fab fa-linkedin fa-3x linkedin" aria-hidden="true"></i></a>
 		</div>
 		<div class="col-12 mt-3 w-100 d-flex justify-content-center">
 			<span class="footer-brand"> DESIGN 2019</span>
@@ -105,6 +119,23 @@ $(document).ready(function(){
 	var teslaView = {
 
 		colores: ['azul','blanco','cafe','gris','negro','rojo','rojooscuro','verde'],
+
+		cambiarColor: function( url ){
+
+			$(".divPreloader").fadeIn(150);
+			if( url === undefined ){
+				let color = teslaView.colores[0];
+				url = "img/tesla/modelS-"+color+".jpg";
+			}
+
+			$("<img>", {src: url, class:"tesla-pic img-fluid" })
+				.on('load', function(){
+					$(".divPreloader").fadeOut(150);
+					$(".divVistaTesla").find("img").remove();
+					$(this).appendTo(".divVistaTesla");
+				});
+
+		},
 
 		init: function(){
 
@@ -119,6 +150,8 @@ $(document).ready(function(){
 			}
 
 			$("#cmbColor").css('textTransform', 'capitalize');
+
+			teslaView.cambiarColor();
 		}
 
 	};
@@ -129,12 +162,16 @@ $(document).ready(function(){
 	$("#cmbColor").on('change', function(){
 		var color = $(this).val();
 		console.log(color);
-		$(".tesla-pic").attr("src","img/tesla/modelS-"+color+".jpg");
+		var url = "img/tesla/modelS-"+color+".jpg";
+		teslaView.cambiarColor( url );
 	});
 });
 </script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
 <script>
 	
